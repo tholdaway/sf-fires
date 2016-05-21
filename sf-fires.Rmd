@@ -20,3 +20,4 @@ fires <- fread("data/Fire_Incidents.csv",nrows = 10000)
 Number of fires according to share of rent controlled living spaces in an area.
 
 Number of fires according to property values (home values, rental prices, etc.)
+
