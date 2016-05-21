@@ -1,6 +1,0 @@
----
-title: "SF Fires"
-author: "Kai Addae and Taylor Holdaway"
-date: "May 21, 2016"
-output: html_document
----
