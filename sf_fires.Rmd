@@ -7,7 +7,6 @@ output: html_document
 
 ```{r}
 library(data.table)
-library(xlsx)
 library(dplyr)
 library(ggplot2)
 library(ggmap)
@@ -16,8 +15,22 @@ library(ggmap)
 
 ```{r}
 fires <- fread("data/Fire_Incidents.csv",nrows = 10000)
+fires <-  as.data.frame(fires)
 zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 ```
+
+```{r Cleaning Fires}
+f <- select(fires,c(Address, `Incident Date`, `Primary Situation`, Zipcode, `Estimated Property Loss`, `Property Use`, `Ignition Cause`, `Heat Source`, `Human Factors Associated with Ignition`, `Structure Type`, `Structure Status`, `Detectors Present`:`Location`))
+```
+To Do:
+1. Make list of "Primary Situation" codes that we intend to keep
+2. Make list of "Property Use" codes we intend to keep
+3. Code location data for properties where it's missing
+4. Clean Zillow data
+5. Merge Zillow & Fires Data
+6. Come up with a model/hypothesis  
+7. REGRESS
+
 
 
 Number of fires according to share of rent controlled living spaces in an area.
