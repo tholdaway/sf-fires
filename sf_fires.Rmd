@@ -11,14 +11,38 @@ library(xlsx)
 library(dplyr)
 library(ggplot2)
 library(ggmap)
-
+library(reshape2)
+library(broom)
+library(maptools)
+library(rgeos)
+library(sp)
+library(plm)
+library(pglm)
 ```
 
-```{r}
-fires <- fread("data/Fire_Incidents.csv",nrows = 10000)
+```{r read data}
+fires <- fread("data/Fire_Incidents.csv")
+fires <- as.data.frame(fires)
 zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 ```
 
+
+```{r zhvi cleaning}
+zhvi1 <- zhvi %>% 
+  filter(State == "CA", Metro == "San Francisco")
+```
+
+
+```{r read shape file}
+file <- "data/ZillowNeighborhoods-CA/ZillowNeighborhoods-CA.shp"
+nbhd.shape <- maptools::readShapePoly(file)
+
+
+shape <- shape[shape@data$CITY != "Salem" & shape@data$CITY != "Eugene",]
+shape.df <- broom::tidy(shape, region = ("REGIONID"))
+shape.df$id <- as.numeric(shape.df$id)
+
+```
 
 Number of fires according to share of rent controlled living spaces in an area.
 
