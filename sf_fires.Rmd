@@ -7,13 +7,16 @@ output: html_document
 
 ```{r}
 library(data.table)
+library(xlsx)
 library(dplyr)
 library(ggplot2)
 library(ggmap)
+
 ```
 
 ```{r}
 fires <- fread("data/Fire_Incidents.csv",nrows = 10000)
+zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 ```
 
 
@@ -21,3 +24,11 @@ Number of fires according to share of rent controlled living spaces in an area.
 
 Number of fires according to property values (home values, rental prices, etc.)
 
+
+##Data:
+Zillow:
+http://www.zillow.com/research/data/#rental-data
+ZRI Time Series: Multifamily, SFR, Condo/Co-op ($)
+
+SF Open City:
+https://data.sfgov.org/Public-Safety/Fire-Incidents/wr8u-xric
