@@ -43,6 +43,8 @@ shape.df <- broom::tidy(shape, region = ("REGIONID"))
 shape.df$id <- as.numeric(shape.df$id)
 
 ```
+
+##Cleaning Fire Dataset
 ```{r cutting down fire dataset}
 f <- select(fires,c(Address, `Incident Date`, `Primary Situation`, Zipcode, `Estimated Property Loss`, `Property Use`, `Ignition Cause`, `Heat Source`, `Human Factors Associated with Ignition`, `Structure Type`, `Structure Status`, `Detectors Present`:`Location`))
 
