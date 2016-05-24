@@ -1,0 +1,16 @@
+---
+title: "sf-fires-fire-dataset"
+output: html_document
+---
+##Reading in Data
+```{r read data}
+fires <- fread("data/Fire_Incidents.csv")
+fires <- as.data.frame(fires)
+zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
+```
+
+##Paring down variables in Fire Dataset
+```{r cutting down fire dataset}
+f <- select(fires,c(Address, `Incident Date`, `Primary Situation`, Zipcode, `Estimated Property Loss`, `Property Use`, `Ignition Cause`, `Heat Source`, `Human Factors Associated with Ignition`, `Structure Type`, `Structure Status`, `Detectors Present`:`Location`))
+
+```
