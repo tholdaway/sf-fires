@@ -14,3 +14,9 @@ zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 f <- select(fires,c(Address, `Incident Date`, `Primary Situation`, Zipcode, `Estimated Property Loss`, `Property Use`, `Ignition Cause`, `Heat Source`, `Human Factors Associated with Ignition`, `Structure Type`, `Structure Status`, `Detectors Present`:`Location`))
 
 ```
+## Codes to Keep
+Primary Situation: 100-118, excluding 112
+Property Use: 400-429, 439- boarding/room house res.hotels?
+
+
+
