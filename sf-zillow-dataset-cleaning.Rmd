@@ -13,6 +13,8 @@ library(ggplot2)
 library(ggmap)
 library(reshape2)
 library(broom)
+library(stringr)
+
 library(maptools)
 library(rgeos)
 library(sp)
@@ -20,17 +22,23 @@ library(plm)
 library(pglm)
 ```
 
-```{r read data}
+```{r zillow house value index data}
 zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 ```
 
 
 ```{r zhvi cleaning}
-zhvi1 <- zhvi %>% 
-  filter(State == "CA", Metro == "San Francisco") %>%
-  select(-SizeRank) %>%
-  melt(id.vars = c("RegionID","RegionName","City","State","Metro","CountyName"),variable.name = "year.mo", value.name = "valueIndex")
-
+zhvi <- zhvi %>% 
+  #only house values in SF, CA metro area
+  dplyr::filter(State == "CA", Metro == "San Francisco") %>%
+  #get rid of sizerank variable
+  dplyr::select(-SizeRank) %>%
+  #reshape wide to long
+  reshape2::melt(id.vars = c("RegionID","RegionName","City","State","Metro","CountyName"),variable.name = "year.mo", value.name = "valueIndex") %>%
+  #get rid of "X" at start of year.mo
+  dplyr::mutate(year.mo = gsub("X","",year.mo)) %>%
+  #split year.month on ".", make first vector into year, second into month
+  dplyr::mutate(year = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,1]), month = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,2]), year.mo = NULL)
 ```
 
 
@@ -43,10 +51,19 @@ nbhd.shape <- maptools::readShapePoly(file)
 nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" |nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
 #tidy to a dataframe
 nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
-  mutate(REGIONID = as.numeric(id), id = NULL)
+  dplyr::mutate(REGIONID = as.numeric(id), id = NULL)
 #make sure that the dataframe has region id and name
 nbhd.df <- broom::tidy(nbhd.shape, region = ("NAME")) %>%
   select(id) %>%
-  mutate(NAME = id, id = NULL) %>%
+  dplyr::mutate(NAME = id, id = NULL) %>%
   cbind(nbhd.df)
 ```
+
+
+```{r merge shape dataframe and zhvi data}
+sf.map <- get_map("san francisco", zoom = 12)
+saveRDS(sf.map,"sf-map.rds")
+sf.map <- readRDS("sf-map.rds")
+ggmap(sf.map) 
+```
+
