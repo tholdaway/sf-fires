@@ -27,24 +27,26 @@ zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 
 ```{r zhvi cleaning}
 zhvi1 <- zhvi %>% 
-  filter(State == "CA", Metro == "San Francisco")
+  filter(State == "CA", Metro == "San Francisco") %>%
+  select(-SizeRank) %>%
+  melt(id.vars = c("RegionID","RegionName","City","State","Metro","CountyName"),variable.name = "year.mo", value.name = "valueIndex")
+
 ```
 
 
 ```{r read shape file}
 #path to shapefile
 file <- "data/ZillowNeighborhoods-CA/ZillowNeighborhoods-CA.shp"
-
+#create polygon from shapefile
 nbhd.shape <- maptools::readShapePoly(file)
+#get rid of neighborhoods outside of SF metro
 nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" |nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
-
+#tidy to a dataframe
 nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
-  mutate(REGIONID = id, id = NULL)
+  mutate(REGIONID = as.numeric(id), id = NULL)
+#make sure that the dataframe has region id and name
 nbhd.df <- broom::tidy(nbhd.shape, region = ("NAME")) %>%
   select(id) %>%
-  mutate(REGIONID = as.numberic(id), id = NULL) %>%
+  mutate(NAME = id, id = NULL) %>%
   cbind(nbhd.df)
-
-nbhd.df$id <- as.numeric(shape.df$id)
-
 ```
