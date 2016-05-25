@@ -48,7 +48,7 @@ file <- "data/ZillowNeighborhoods-CA/ZillowNeighborhoods-CA.shp"
 #create polygon from shapefile
 nbhd.shape <- maptools::readShapePoly(file)
 #get rid of neighborhoods outside of SF metro
-nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" |nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
+nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco" | nbhd.shape@data$CITY == "Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" | nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
 #tidy to a dataframe
 nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
   dplyr::mutate(REGIONID = as.numeric(id), id = NULL)
@@ -56,14 +56,16 @@ nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
 nbhd.df <- broom::tidy(nbhd.shape, region = ("NAME")) %>%
   select(id) %>%
   dplyr::mutate(NAME = id, id = NULL) %>%
-  cbind(nbhd.df)
+  cbind(nbhd.df) %>%
+  arrange(order)
 ```
 
 
 ```{r merge shape dataframe and zhvi data}
-sf.map <- get_map("san francisco", zoom = 12)
-saveRDS(sf.map,"sf-map.rds")
+#sf.map <- get_map("san francisco", zoom = 10)
+#saveRDS(sf.map,"sf-map.rds")
 sf.map <- readRDS("sf-map.rds")
-ggmap(sf.map) 
+ggmap(sf.map) +
+  geom_polygon(aes(x=long,y=lat, group=group), alpha = 0.25, data=nbhd.df, fill='white', color = "black")
 ```
 
