@@ -23,4 +23,11 @@ Primary Situation: 100-118, excluding 112
 Property Use: 400-429, 439- boarding/room house res.hotels?
 
 
+##Next Steps:
+Get Location data that is missing
+Need to recode lat and long into useable format-- probs use str_split_fixed and sub or gsub
+Exclude intentional fires, think about human factors in fire setting
+How to plot count of fires by neighborhood--teach kai
+Verify neighborhoods in both datasets-- do these match zillow nbhds?
+
 
