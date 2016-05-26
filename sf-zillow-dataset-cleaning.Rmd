@@ -39,6 +39,8 @@ zhvi <- zhvi %>%
   dplyr::mutate(year.mo = gsub("X","",year.mo)) %>%
   #split year.month on ".", make first vector into year, second into month
   dplyr::mutate(year = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,1]), month = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,2]), year.mo = NULL)
+
+names(zhvi) <- tolower(names(zhvi))
 ```
 
 
@@ -53,19 +55,29 @@ nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco" | nbhd.shape@da
 nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
   dplyr::mutate(REGIONID = as.numeric(id), id = NULL)
 #make sure that the dataframe has region id and name
-nbhd.df <- broom::tidy(nbhd.shape, region = ("NAME")) %>%
-  select(id) %>%
-  dplyr::mutate(NAME = id, id = NULL) %>%
-  cbind(nbhd.df) %>%
-  arrange(order)
+nbhd.df <- nbhd.shape@data %>%
+  dplyr::select(NAME,REGIONID) %>%
+  dplyr::right_join(nbhd.df)
+  
+names(nbhd.df) <- tolower(names(nbhd.df))
 ```
 
 
-```{r merge shape dataframe and zhvi data}
-#sf.map <- get_map("san francisco", zoom = 10)
-#saveRDS(sf.map,"sf-map.rds")
-sf.map <- readRDS("sf-map.rds")
-ggmap(sf.map) +
+```{r get map}
+
+#some map crap
+#sf.map.12 <- get_map("san francisco", zoom = 12)
+#saveRDS(sf.map.12,"sf-map-12.rds")
+sf.map.12 <- readRDS("sf-map-12.rds")
+ggmap(sf.map.12) +
   geom_polygon(aes(x=long,y=lat, group=group), alpha = 0.25, data=nbhd.df, fill='white', color = "black")
+```
+
+```{r merge shape dataframe and zhvi data}
+zhvi.nbhd.df <- dplyr::left_join(nbhd.df,zhvi) %>% dplyr::arrange(order)
+```
+
+```{r}
+ggmap(sf.map.12) + geom_polygon(aes(x=long,y=lat, group=group, fill = valueindex), alpha = 0.9, data=filter(zhvi.nbhd.df,year==2014, month==1,city == "San Francisco"), color = "black")
 ```
 
