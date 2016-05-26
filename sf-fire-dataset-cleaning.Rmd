@@ -9,14 +9,14 @@ fires <- as.data.frame(fires)
 zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
 ```
 
-##Paring down variables in Fire Dataset
+##Paring down variables and observations in Fire Dataset
 ```{r cutting down fire dataset}
 f <- select(fires,c(Address, `Incident Date`, `Primary Situation`, Zipcode, `Estimated Property Loss`, `Property Use`, `Ignition Cause`, `Heat Source`, `Human Factors Associated with Ignition`, `Structure Type`, `Structure Status`, `Detectors Present`:`Location`)) %>%
 # Singling out codes from data (incident codes and then property use)
   dplyr::mutate(situationcode = as.numeric(stringr::str_sub(`Primary Situation`, start = 1, end = 3))) %>%
   dplyr::mutate(propertycode = as.numeric(stringr::str_sub(`Property Use`, start = 1, end = 3))) %>%
 #filtering by codes to use
-dplyr::filter(situationcode == 100:118, situationcode != 112, propertycode == 400:429)
+dplyr::filter(situationcode %in% 100:118, situationcode != 112, propertycode %in% 400:429)
 ```
 ## Codes to Keep
 Primary Situation: 100-118, excluding 112
