@@ -89,7 +89,7 @@ ggmap(sf.map.12) +
 
 ```{r Fill- setting a rainbow gradient, Jan 2014}
 ggmap(sf.map.12) +
-  geom_polygon(aes(x=long,y=lat, group=group, fill = valueindex), alpha = 0.9, data=filter(zhvi.nbhd.df,year==2014, month==1,city == "San Francisco"), color = "black") +
+  geom_polygon(aes(x=long,y=lat, group=group, fill = valueindex), alpha = 0.9, data=filter(zhvi.nbhd.df,year==1999, month==1,city == "San Francisco"), color = "black") +
   scale_fill_gradientn(colours = rainbow(7))
 
 ```
