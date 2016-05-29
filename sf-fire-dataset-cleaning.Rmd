@@ -65,4 +65,4 @@ How to plot count of fires by neighborhood--teach kai
 Verify neighborhoods in both datasets-- do these match zillow nbhds?
 
 ##Done
-Need to recode lat and long into useable format-- probs use str_split_fixed and sub or gsub hint: Location = (lat, long)
+Need to recode lat and long into useable format-- probs use str_split_fixed and sub or gsub hint: Location = (lat, long) 
