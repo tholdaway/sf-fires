@@ -2,6 +2,21 @@
 title: "sf-fires-fire-dataset"
 output: html_document
 ---
+
+```{r}
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(ggmap)
+library(reshape2)
+library(broom)
+library(maptools)
+library(rgeos)
+library(sp)
+library(plm)
+library(pglm)
+```
+
 ##Reading in Data
 ```{r read data}
 fires <- fread("data/Fire_Incidents.csv")
@@ -23,12 +38,25 @@ Primary Situation: 100-118, excluding 112
 Property Use: 400-429, 439- boarding/room house res.hotels?
 
 ```{r Recoding lat/long data}
-f <- reshape2::colsplit(fires$Location, ",", names = c("lat", "long"))%>%
+fires <- reshape2::colsplit(fires$Location, ",", names = c("lat", "long"))%>%
   cbind(fires, .) %>%
   dplyr::mutate(lat = as.numeric(gsub("[(]", "", lat)), long = as.numeric(gsub("[)]", "", long)))
 
 ```
 
+
+```{r geocode}
+
+
+coord <- ggmap::geocode(fires$address,messaging = F, output = "latlona")
+demo.address <- merge(pdx,coord, by = 0)
+demo.address$address.x <- NULL
+demo.address$Row.names <- NULL
+demo.address <- rename(demo.address, address = address.y)
+demo.address$address <- as.character(demo.address$address)
+
+
+```
 
 ##Next Steps:
 Get Location data that is missing
