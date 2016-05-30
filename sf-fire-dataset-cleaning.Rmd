@@ -70,12 +70,19 @@ saveRDS(coord.kai,file = "coord-kai.RDS")
 #
 #b4 running the rest, push RDS files to git
 #
+```
+
+```{r geocode merge}
 coord.kai <- readRDS("coord-kai.RDS")
 coord.taylor <- readRDS("coord-taylor.RDS")
 
-fires[!is.na(index),] <- NULL
-fires <- fires %>% rbind(coord.taylor) %>% rbind(coord.kai)
+#fix lat and long vars
+coord <- rbind(coord.kai,coord.taylor) %>%
+  dplyr::mutate(lat = lat.1, long = lon, lat.1 = NULL, lon = NULL)
 
+#stick together with fires, sans the just coded data
+fires[!is.na(index),] <- NULL
+fires <- fires %>% rbind(coord) 
 ```
 
 ##Next Steps:
