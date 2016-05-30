@@ -46,15 +46,30 @@ fires <- reshape2::colsplit(fires$Location, ",", names = c("lat", "long"))%>%
 
 
 ```{r geocode}
+fires <- fires %>% dplyr::mutate(Address = tolower(paste(Address,"san francisco", sep = ", ")))
 
+fires$index <- NA
+fires[is.na(fires$lat),]$index <- seq(sum(is.na(fires$lat)))
 
-coord <- ggmap::geocode(fires$address,messaging = F, output = "latlona")
-demo.address <- merge(pdx,coord, by = 0)
-demo.address$address.x <- NULL
-demo.address$Row.names <- NULL
-demo.address <- rename(demo.address, address = address.y)
-demo.address$address <- as.character(demo.address$address)
+taylor <- subset(fires,fires$index <= 1669)
+kai <- subset(fires,fires$index > 1669)
 
+#taylor will geocode this stuff
+coord.taylor <- ggmap::mutate_geocode(taylor, Address)
+saveRDS(coord.taylor,file = "coord-taylor.RDS")
+#
+#
+#kai will geocode this stuff
+coord.kai <- ggmap::mutate_geocode(kai, Address)
+saveRDS(coord.kai,file = "coord-kai.RDS")
+#
+#b4 running the rest, push RDS files to git
+#
+coord.kai <- readRDS("coord-kai.RDS")
+coord.taylor <- readRDS("coord-taylor.RDS")
+
+fires[!is.na(index),] <- NULL
+fires <- fires %>% rbind(coord.taylor) %>% rbind(coord.kai)
 
 ```
 
