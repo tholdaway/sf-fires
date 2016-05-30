@@ -53,10 +53,15 @@ fires[is.na(fires$lat),]$index <- seq(sum(is.na(fires$lat)))
 
 taylor <- subset(fires,fires$index <= 1669)
 kai <- subset(fires,fires$index > 1669)
+```
 
+```{r taylor geocode}
 #taylor will geocode this stuff
 coord.taylor <- ggmap::mutate_geocode(taylor, Address)
 saveRDS(coord.taylor,file = "coord-taylor.RDS")
+```
+
+```{r kai geocode}
 #
 #
 #kai will geocode this stuff
