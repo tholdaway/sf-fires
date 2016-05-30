@@ -55,7 +55,7 @@ taylor <- subset(fires,fires$index <= 1669)
 kai <- subset(fires,fires$index > 1669)
 ```
 
-```{r taylor geocode}
+```{r taylor geocode, include=FALSE}
 #taylor will geocode this stuff
 coord.taylor <- ggmap::mutate_geocode(taylor, Address)
 saveRDS(coord.taylor,file = "coord-taylor.RDS")
