@@ -61,7 +61,7 @@ coord.taylor <- ggmap::mutate_geocode(taylor, Address)
 saveRDS(coord.taylor,file = "coord-taylor.RDS")
 ```
 
-```{r kai geocode}
+```{r kai geocode, include=FALSE}
 #
 #
 #kai will geocode this stuff
@@ -79,9 +79,10 @@ coord.taylor <- readRDS("coord-taylor.RDS")
 #fix lat and long vars
 coord <- rbind(coord.kai,coord.taylor) %>%
   dplyr::mutate(lat = lat.1, long = lon, lat.1 = NULL, lon = NULL)
+names(coord) <- names(fires)
 
 #stick together with fires, sans the just coded data
-fires[!is.na(index),] <- NULL
+fires <- fires[is.na(fires$index),]
 fires <- fires %>% rbind(coord) 
 ```
 
