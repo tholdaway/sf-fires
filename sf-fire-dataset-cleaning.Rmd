@@ -86,11 +86,16 @@ fires <- fires[is.na(fires$index),]
 fires <- fires %>% rbind(coord) 
 ```
 
+
+```{r saving file }
+saveRDS(fires, file = "Geocoded_fires.rds")
+```
+
 ##Next Steps:
-Get Location data that is missing
 Exclude intentional fires, think about human factors in fire setting
 How to plot count of fires by neighborhood--teach kai
 Verify neighborhoods in both datasets-- do these match zillow nbhds?
 
 ##Done
+Get Location data that is missing
 Need to recode lat and long into useable format-- probs use str_split_fixed and sub or gsub hint: Location = (lat, long) 
