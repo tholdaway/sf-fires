@@ -91,8 +91,7 @@ fires <- fires %>% rbind(coord)
 saveRDS(fires, file = "Geocoded_fires.rds")
 ```
 
-##Next Steps:
-Exclude intentional fires, think about human factors in fire setting
+##Next Steps (not here):
 How to plot count of fires by neighborhood--teach kai
 Verify neighborhoods in both datasets-- do these match zillow nbhds?
 
