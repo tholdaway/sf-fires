@@ -5,7 +5,7 @@ date: "May 21, 2016"
 output: html_document
 ---
 
-```{r}
+```{r bibliotheques}
 library(data.table)
 library(xlsx)
 library(dplyr)
@@ -21,25 +21,15 @@ library(pglm)
 ```
 
 ```{r read data}
-fires <- fread("data/Fire_Incidents.csv")
-fires <- as.data.frame(fires)
-zhvi <- read.csv("data/Neighborhood_Zhvi_AllHomes.csv")
+gfires <- readRDS("Geocoded_fires.rds")
+nbhd.shape <- readRDS("nbhd_shape.rds")
+zhvi.nbhd.df <- readRDS("zhvi_nbhd_df.rds")
 ```
 
+```{r overlay fires to nbhds (aggregating)}
+sp::coordinates(gfires) <- ~long + lat
+t <- over(gfires, nbhd.shape)
 
-```{r zhvi cleaning}
-zhvi1 <- zhvi %>% 
-  filter(State == "CA", Metro == "San Francisco")
-```
-
-
-```{r read shape file}
-file <- "data/ZillowNeighborhoods-CA/ZillowNeighborhoods-CA.shp"
-nbhd.shape <- maptools::readShapePoly(file)
-nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" |nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
-
-shape.df <- broom::tidy(shape, region = ("REGIONID"))
-shape.df$id <- as.numeric(shape.df$id)
 
 ```
 
