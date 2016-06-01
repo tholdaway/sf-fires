@@ -50,6 +50,8 @@ file <- "data/ZillowNeighborhoods-CA/ZillowNeighborhoods-CA.shp"
 nbhd.shape <- maptools::readShapePoly(file)
 #get rid of neighborhoods outside of SF metro
 nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco" | nbhd.shape@data$CITY == "Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" | nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
+#save
+saveRDS(nbhd.shape,file="nbhd_shape.rds")
 #tidy to a dataframe
 nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
   dplyr::mutate(REGIONID = as.numeric(id), id = NULL)
@@ -74,6 +76,7 @@ ggmap(sf.map.12) +
 
 ```{r merge shape dataframe and zhvi data}
 zhvi.nbhd.df <- dplyr::left_join(nbhd.df,zhvi) %>% dplyr::arrange(order)
+saveRDS(zhvi.nbhd.df,file="zhvi_nbhd_df.rds")
 ```
 
 ```{r Plot of January 2014 Value Data}
