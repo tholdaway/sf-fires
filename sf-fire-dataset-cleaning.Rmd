@@ -55,13 +55,13 @@ taylor <- subset(fires,fires$index <= 1669)
 kai <- subset(fires,fires$index > 1669)
 ```
 
-```{r taylor geocode, include=FALSE}
+```{r taylor geocode, eval=FALSE}
 #taylor will geocode this stuff
 coord.taylor <- ggmap::mutate_geocode(taylor, Address)
 saveRDS(coord.taylor,file = "coord-taylor.RDS")
 ```
 
-```{r kai geocode, include=FALSE}
+```{r kai geocode, eval=FALSE}
 #
 #
 #kai will geocode this stuff
@@ -88,6 +88,8 @@ fires <- fires %>% rbind(coord)
 
 
 ```{r saving file }
+#delete index column, save
+fires$index <- NULL
 saveRDS(fires, file = "Geocoded_fires.rds")
 ```
 
