@@ -40,6 +40,7 @@ zhvi <- zhvi %>%
   dplyr::mutate(year = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,1]), month = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,2]), year.mo = NULL)
 
 names(zhvi) <- tolower(names(zhvi))
+saveRDS(zhvi,"zhvi-df.rds")
 ```
 
 
