@@ -73,8 +73,8 @@ saveRDS(coord.kai,file = "rdata/coord-kai.RDS")
 ```
 
 ```{r geocode merge}
-coord.kai <- readRDS("coord-kai.RDS")
-coord.taylor <- readRDS("coord-taylor.RDS")
+coord.kai <- readRDS("rdata/coord-kai.RDS")
+coord.taylor <- readRDS("rdata/coord-taylor.RDS")
 
 #fix lat and long vars
 coord <- rbind(coord.kai,coord.taylor) %>%
@@ -86,6 +86,12 @@ fires <- fires[is.na(fires$index),]
 fires <- fires %>% rbind(coord) 
 ```
 
+```{r changing date to useable format}
+fires <- reshape2::colsplit(fires$`Incident Date`, "/", names = c("month","day","year")) %>% 
+  apply(., MARGIN = 2, as.numeric) %>%
+  cbind(fires, .)
+
+```
 
 ```{r saving file }
 #delete index column, save
