@@ -21,8 +21,8 @@ library(pglm)
 ```
 
 ```{r read data}
-gfires <- readRDS("Geocoded_fires.rds")
-nbhd.shape <- readRDS("nbhd_shape.rds")
+gfires <- readRDS("rdata/Geocoded_fires.rds")
+nbhd.shape <- readRDS("rdata/nbhd_shape.rds")
 zhvi.nbhd.df <- readRDS("zhvi_nbhd_df.rds")
 ```
 
