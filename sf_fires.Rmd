@@ -29,7 +29,11 @@ zhvi.nbhd.df <- readRDS("zhvi_nbhd_df.rds")
 ```{r overlay fires to nbhds (aggregating)}
 sp::coordinates(gfires) <- ~long + lat
 t <- over(gfires, nbhd.shape)
-
+#note rownames of df from sp::over match rownames from spdf (gfires spdf). see this by:
+#sum(rownames(gfires@data) != rownames(t))
+#so just use cbind to bind cols of the two dataframes:
+gfires@data <- cbind(gfires@data,t)
+#note that the neighborhood variable from the original fire data and the neighborhood variable from the overlay sometimes do not agree. chock this up to differently defined neighborhoods between zillow and the inputter of the sf fire data
 
 ```
 
