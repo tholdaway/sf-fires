@@ -58,7 +58,7 @@ kai <- subset(fires,fires$index > 1669)
 ```{r taylor geocode, eval=FALSE}
 #taylor will geocode this stuff
 coord.taylor <- ggmap::mutate_geocode(taylor, Address)
-saveRDS(coord.taylor,file = "coord-taylor.RDS")
+saveRDS(coord.taylor,file = "rdata/coord-taylor.RDS")
 ```
 
 ```{r kai geocode, eval=FALSE}
@@ -66,7 +66,7 @@ saveRDS(coord.taylor,file = "coord-taylor.RDS")
 #
 #kai will geocode this stuff
 coord.kai <- ggmap::mutate_geocode(kai, Address)
-saveRDS(coord.kai,file = "coord-kai.RDS")
+saveRDS(coord.kai,file = "rdata/coord-kai.RDS")
 #
 #b4 running the rest, push RDS files to git
 #
@@ -90,7 +90,7 @@ fires <- fires %>% rbind(coord)
 ```{r saving file }
 #delete index column, save
 fires$index <- NULL
-saveRDS(fires, file = "Geocoded_fires.rds")
+saveRDS(fires, file = "rdata/Geocoded_fires.rds")
 ```
 
 ##Next Steps (not here):
