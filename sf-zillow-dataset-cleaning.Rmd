@@ -40,7 +40,7 @@ zhvi <- zhvi %>%
   dplyr::mutate(year = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,1]), month = as.numeric(stringr::str_split_fixed(year.mo,"[.]",n=2)[,2]), year.mo = NULL)
 
 names(zhvi) <- tolower(names(zhvi))
-saveRDS(zhvi,"zhvi-df.rds")
+saveRDS(zhvi,"rdata/zhvi-df.rds")
 ```
 
 
@@ -52,7 +52,7 @@ nbhd.shape <- maptools::readShapePoly(file)
 #get rid of neighborhoods outside of SF metro
 nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco" | nbhd.shape@data$CITY == "Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" | nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
 #save
-saveRDS(nbhd.shape,file="nbhd_shape.rds")
+saveRDS(nbhd.shape,file="rdata/nbhd_shape.rds")
 #tidy to a dataframe
 nbhd.df <- broom::tidy(nbhd.shape, region = ("REGIONID")) %>%
   dplyr::mutate(REGIONID = as.numeric(id), id = NULL)
@@ -69,15 +69,15 @@ names(nbhd.df) <- tolower(names(nbhd.df))
 
 #some map crap
 #sf.map.12 <- ggmap::get_map("san francisco", zoom = 12)
-#saveRDS(sf.map.12,"sf-map-12.rds")
-sf.map.12 <- readRDS("sf-map-12.rds")
+#saveRDS(sf.map.12,"rdata/sf-map-12.rds")
+sf.map.12 <- readRDS("rdata/sf-map-12.rds")
 ggmap(sf.map.12) +
   geom_polygon(aes(x=long, y=lat, group=group), alpha = 0.25, data=nbhd.df, fill='white', color = "black")
 ```
 
 ```{r merge shape dataframe and zhvi data}
 zhvi.nbhd.df <- dplyr::left_join(nbhd.df,zhvi) %>% dplyr::arrange(order)
-saveRDS(zhvi.nbhd.df,file="zhvi_nbhd_df.rds")
+saveRDS(zhvi.nbhd.df,file="rdata/zhvi_nbhd_df.rds")
 ```
 
 ```{r Plot of January 2014 Value Data}
