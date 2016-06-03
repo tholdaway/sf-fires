@@ -30,10 +30,15 @@ t <- over(gfires, nbhd.shape)
 #so just use cbind to bind cols of the two dataframes:
 gfires@data <- cbind(gfires@data,t)
 #note that the neighborhood variable from the original fire data and the neighborhood variable from the overlay sometimes do not agree. chock this up to differently defined neighborhoods between zillow and the inputter of the sf fire data
+gfires <- gfires[nbhd.shape,]
 #AGGREGATION
-gfires2 <- dplyr::
+gfires2 <- gfires@data %>% dplyr::group_by( ., year, month, NAME, REGIONID) %>%
+  summarize(countoffires = n())
 ```
 
+```{r merge zillow & fires data}
+
+```
 
 
 Number of fires according to share of rent controlled living spaces in an area.
