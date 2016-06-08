@@ -1,0 +1,22 @@
+---
+title: "sf-rent-control-dataset-cleaning"
+author: "Kai"
+date: "June 8, 2016"
+output: html_document
+---
+```{r bibliotheques}
+library(dplyr)
+library(ggplot2)
+library(ggmap)
+library(reshape2)
+library(broom)
+library(maptools)
+library(rgeos)
+library(sp)
+```
+
+```{r reading in data}
+rent.control <- read.csv("data/sf-rent.csv")
+
+```
+
