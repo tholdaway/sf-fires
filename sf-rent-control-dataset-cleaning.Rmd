@@ -20,3 +20,15 @@ rent.control <- read.csv("data/sf-rent.csv")
 
 ```
 
+```{r cleaning up col names}
+colnames(rent.control) <- c("rcpercentofstock", "rcpercentofMFRs", "percentMFRS", "neighborhood")
+```
+
+
+```{r merging?}
+rc.fires <- merge(gfires, rent.control, by.x= "Neighborhood  District", by.y = "neighborhood", all.x = TRUE)
+
+```
+##To Do
+*Rename obviously matching rc nbhd variables to match fires nbhds
+*remerge
