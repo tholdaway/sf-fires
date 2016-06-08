@@ -17,8 +17,6 @@ library(stringr)
 library(maptools)
 library(rgeos)
 library(sp)
-library(plm)
-library(pglm)
 ```
 
 ```{r zillow house value index data}
@@ -50,7 +48,7 @@ file <- "data/ZillowNeighborhoods-CA/ZillowNeighborhoods-CA.shp"
 #create polygon from shapefile
 nbhd.shape <- maptools::readShapePoly(file)
 #get rid of neighborhoods outside of SF metro
-nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco" | nbhd.shape@data$CITY == "Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" | nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
+nbhd.shape <- nbhd.shape[nbhd.shape@data$CITY == "San Francisco",]# | nbhd.shape@data$CITY == "Hayward" | nbhd.shape@data$CITY == "Fremont" | nbhd.shape@data$CITY == "Oakland" | nbhd.shape@data$CITY == "San Mateo" | nbhd.shape@data$CITY == "Menlo Park",]
 #save
 saveRDS(nbhd.shape,file="rdata/nbhd_shape.rds")
 #tidy to a dataframe
@@ -72,7 +70,7 @@ names(nbhd.df) <- tolower(names(nbhd.df))
 #saveRDS(sf.map.12,"rdata/sf-map-12.rds")
 sf.map.12 <- readRDS("rdata/sf-map-12.rds")
 ggmap(sf.map.12) +
-  geom_polygon(aes(x=long, y=lat, group=group), alpha = 0.25, data=nbhd.df, fill='white', color = "black")
+  geom_polygon(aes(x=long, y=lat, group=group), alpha = .7, data=nbhd.df, fill='white', color = "black")
 ```
 
 ```{r merge shape dataframe and zhvi data}
