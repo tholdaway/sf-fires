@@ -47,11 +47,14 @@ Number of fires according to property values (home values, rental prices, etc.)
 
 
 ##To Do:
-4. Clean Zillow data
-5. Merge Zillow & Fires Data 
---
-6. Come up with a model/hypothesis
-7. REGRESS
+Clean Zillow data
+Merge Zillow & Fires Data 
+* Exclude Fires in single family units
+* get ACS data
+* clean ACS data, combine tracts to form nbhds
+* merge ACS data with zillow/fires data
+*Come up with a model/hypothesis
+*REGRESS
 
 
 ##Data:
