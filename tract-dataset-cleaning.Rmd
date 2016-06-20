@@ -1,0 +1,38 @@
+---
+title: "tract_data"
+author: "Kai"
+date: "June 20, 2016"
+output: html_document
+---
+
+```{r bibliotheques}
+library(dplyr)
+library(ggplot2)
+library(ggmap)
+library(reshape2)
+library(broom)
+library(maptools)
+library(rgeos)
+library(sp)
+```
+
+
+```{r read data}
+tracts.basic <- read.csv("data/census-tracts-assigned-nbhd/Analysis_Neighborhoods.csv")
+saveRDS(tracts.basic, file = "rdata/tract-assignment.rds")
+
+```
+
+```{r read shape file, eval=FALSE, include=FALSE}
+#path to shapefile
+tracts <- "data/census-tracts-assigned-nbhd/geo_export_03d16a29-acf4-4eb2-9326-3367cc307f74.shp"
+#create polygon from shapefile
+tracts.shape <- maptools::readShapePoly(tract)
+#save
+saveRDS(tracts.shape,file="rdata/tracts_shape.rds")
+#tidy to a dataframe???
+
+```
+
+
+
