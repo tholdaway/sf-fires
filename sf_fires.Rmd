@@ -50,8 +50,8 @@ Number of fires according to property values (home values, rental prices, etc.)
 Clean Zillow data
 Merge Zillow & Fires Data 
 * Exclude Fires in single family units
-* get ACS data
-* clean ACS data, combine tracts to form nbhds
+* get ACS data (covering 2003-2016)
+* clean ACS data, combine tracts to form nbhds?
 * merge ACS data with zillow/fires data
 *Come up with a model/hypothesis
 *REGRESS
@@ -62,7 +62,11 @@ Zillow:
 http://www.zillow.com/research/data/#rental-data
 ZRI Time Series: Multifamily, SFR, Condo/Co-op ($)
 
-SF Open City:
+SF Open City Fire Data:
 https://data.sfgov.org/Public-Safety/Fire-Incidents/wr8u-xric
+
+SF Open City Tract Aggregation Data:
+https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods-census-tracts-assigned-to-n/bwbp-wk3r
+
 
 
